@@ -1,4 +1,10 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "加入我们 | 最右风格复刻",
+  description: "校园招聘、社会招聘与内推入口（占位）。",
+};
 
 export default function JoinUsPage() {
   return (

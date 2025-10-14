@@ -1,3 +1,10 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "公司介绍 | 最右风格复刻",
+  description: "公司介绍占位内容，展示页面结构与导航。",
+};
+
 export default function AboutPage() {
   return (
     <section className="container mx-auto px-4 py-16">
