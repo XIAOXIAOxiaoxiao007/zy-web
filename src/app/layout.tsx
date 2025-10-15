@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,10 +29,10 @@ export const metadata: Metadata = {
     siteName: "最右风格复刻",
     images: [
       {
-        url: "/vercel.svg",
+        url: "/og.svg",
         width: 1200,
         height: 630,
-        alt: "OG Image",
+        alt: "最右风格复刻 OG",
       },
     ],
     locale: "zh_CN",
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "最右 - 风格相似复刻",
     description: "兴趣社区落地页复刻（占位内容）",
-    images: ["/vercel.svg"],
+    images: ["/og.svg"],
   },
   robots: {
     index: true,
@@ -57,6 +58,15 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-white text-gray-900`}>
+        <Script id="sw-register" strategy="afterInteractive">
+          {`
+            if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+              window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(() => {});
+              });
+            }
+          `}
+        </Script>
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
