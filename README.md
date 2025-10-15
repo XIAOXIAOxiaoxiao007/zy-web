@@ -33,3 +33,22 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.com
 ```bash
 npx vercel --prod
 ```
+
+## 后端与数据（可选：Supabase）
+1. 在 Supabase 创建项目，开启匿名 Key（anon）。
+2. 在 Table Editor 新建表 `feedback`：
+   - `id` bigint (PK, default identity)
+   - `email` text
+   - `content` text
+   - `created_at` timestamptz default now()
+3. 复制 Project URL 与 anon Key，填入环境变量：
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+4. 访问 `/feedback` 提交数据，API 位于 `app/api/feedback/route.ts`。
+
+## 轻量 APP 打包（思路）
+- 使用 Capacitor 将 Next.js 站点打包成安卓/苹果应用外壳：
+  - `npx cap init`，`npx cap add android`/`ios`，`npx cap sync`
+  - Next 产物 `next build && next export` 或使用 `next start` + WebView 加载线上地址
+  - Android Studio/Xcode 打包上架（需开发者账号）
+ 具体指令会在后续文档补充。

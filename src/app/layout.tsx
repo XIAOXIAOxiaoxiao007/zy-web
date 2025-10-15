@@ -44,6 +44,15 @@ export const metadata: Metadata = {
     description: "兴趣社区落地页复刻（占位内容）",
     images: ["/og.svg"],
   },
+  icons: {
+    icon: [
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/icons/icon-192.png" },
+    ],
+  },
   robots: {
     index: true,
     follow: true,

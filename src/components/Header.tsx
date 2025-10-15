@@ -27,6 +27,7 @@ export default function Header() {
 			<Link href="/" className="hover:text-black">首页</Link>
 			<Link href="/about" className="hover:text-black">公司介绍</Link>
 			<Link href="/join-us" className="hover:text-black">加入我们</Link>
+			<Link href="/feedback" className="hover:text-black">意见反馈</Link>
 			<a href="https://www.ixiaochuan.cn/" target="_blank" rel="noopener noreferrer" className="hover:text-black">最右网页版</a>
 		</nav>
       </div>
@@ -36,6 +37,7 @@ export default function Header() {
 					<Link href="/" className="hover:text-black" onClick={() => setMenuOpen(false)}>首页</Link>
 					<Link href="/about" className="hover:text-black" onClick={() => setMenuOpen(false)}>公司介绍</Link>
 					<Link href="/join-us" className="hover:text-black" onClick={() => setMenuOpen(false)}>加入我们</Link>
+					<Link href="/feedback" className="hover:text-black" onClick={() => setMenuOpen(false)}>意见反馈</Link>
 					<a href="https://www.ixiaochuan.cn/" target="_blank" rel="noopener noreferrer" className="hover:text-black" onClick={() => setMenuOpen(false)}>最右网页版</a>
 				</nav>
         </div>
