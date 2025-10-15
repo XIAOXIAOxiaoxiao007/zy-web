@@ -47,8 +47,28 @@ npx vercel --prod
 4. 访问 `/feedback` 提交数据，API 位于 `app/api/feedback/route.ts`。
 
 ## 轻量 APP 打包（思路）
-- 使用 Capacitor 将 Next.js 站点打包成安卓/苹果应用外壳：
-  - `npx cap init`，`npx cap add android`/`ios`，`npx cap sync`
-  - Next 产物 `next build && next export` 或使用 `next start` + WebView 加载线上地址
-  - Android Studio/Xcode 打包上架（需开发者账号）
- 具体指令会在后续文档补充。
+使用 Capacitor 将站点打包为轻量 App：
+
+1. 安装依赖
+   ```bash
+   npm i -D @capacitor/cli @capacitor/android @capacitor/ios
+   npm i @capacitor/core
+   ```
+2. 配置
+   - `capacitor.config.ts` 已提供，默认加载线上 `NEXT_PUBLIC_SITE_URL` 作为 App WebView 地址
+3. 初始化与平台添加
+   ```bash
+   npx cap add android
+   # 如需 iOS：npx cap add ios
+   ```
+4. 同步资源并打开工程
+   ```bash
+   npx cap sync
+   npx cap open android    # 打开 Android Studio
+   # npx cap open ios      # 打开 Xcode
+   ```
+5. 打包
+   - Android Studio：Build → Generate Signed Bundle/APK（建议 aab）
+   - iOS：Xcode Archive → Distribute
+
+注意：若想内置本地静态包，可使用 `next export` 产物放到 `android/app/src/main/assets/public`；但推荐直接加载线上地址以便热更新。
