@@ -1,7 +1,8 @@
 import DownloadButtons from "@/components/DownloadButtons";
 import Reveal from "@/components/Reveal";
 import Image from "next/image";
-import { hero, features, testimonials, faq } from "@/content/home";
+import Link from "next/link";
+import { hero } from "@/content/home";
 
 export default function HomePage() {
   return (
@@ -35,52 +36,14 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Features */}
+      {/* CTA to highlights */}
       <div className="py-12 sm:py-16">
-        <Reveal>
-          <h2 className="text-2xl sm:text-3xl font-bold mb-6">功能亮点（占位）</h2>
-        </Reveal>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((f, idx) => (
-            <Reveal key={f.title} delayMs={idx === 0 ? 0 : idx === 1 ? 80 : 120}>
-              <div className="p-6 rounded-xl border bg-white">
-                <div className="flex items-center gap-3 mb-3">
-                  <Image src={f.icon.src} alt={f.icon.alt} width={28} height={28} />
-                  <span className="font-semibold">{f.title}</span>
-                </div>
-                <p className="text-gray-600 text-sm">{f.text}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-
-      {/* Testimonials */}
-      <div className="py-12 sm:py-16">
-        <Reveal>
-          <h2 className="text-2xl sm:text-3xl font-bold mb-6">用户反馈（占位）</h2>
-        </Reveal>
-        <div className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((t, idx) => (
-            <Reveal key={idx} delayMs={idx === 0 ? 0 : idx === 1 ? 80 : 120}>
-              <blockquote className="p-6 rounded-xl border bg-white text-sm text-gray-700">{t}</blockquote>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-
-      {/* FAQ */}
-      <div className="py-12 sm:py-16">
-        <Reveal>
-          <h2 className="text-2xl sm:text-3xl font-bold mb-6">常见问题（占位）</h2>
-        </Reveal>
-        <div className="space-y-3">
-          {faq.map((item, idx) => (
-            <details key={idx} className="group rounded-xl border bg-white p-4">
-              <summary className="cursor-pointer list-none font-medium">{item.q}</summary>
-              <p className="mt-2 text-sm text-gray-600">{item.a}</p>
-            </details>
-          ))}
+        <div className="flex items-center justify-between rounded-xl border bg-white p-6">
+          <div>
+            <h2 className="text-xl font-semibold mb-1">更多内容在「亮点合集」</h2>
+            <p className="text-sm text-gray-600">功能亮点、用户反馈与常见问题已移至新页面。</p>
+          </div>
+          <Link href="/highlights" className="px-4 py-2 rounded-md border text-sm hover:bg-gray-50">前往查看</Link>
         </div>
       </div>
     </section>
