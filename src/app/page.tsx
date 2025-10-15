@@ -3,10 +3,12 @@ import Reveal from "@/components/Reveal";
 import Image from "next/image";
 import Link from "next/link";
 import { hero } from "@/content/home";
+import MobileEntryRedirect from "@/components/MobileEntryRedirect";
 
 export default function HomePage() {
   return (
     <section className="container mx-auto px-4">
+      <MobileEntryRedirect delayMs={5000} fadeDurationMs={800} />
       <div className="py-16 sm:py-24 grid md:grid-cols-2 gap-10 items-center">
         <Reveal>
           <div className="space-y-5">

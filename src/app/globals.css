@@ -24,3 +24,6 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+/* 安全区适配：沉浸式状态栏下为顶部增加 padding 变量 */
+/* 移除暂不使用的 safe-top 工具类 */

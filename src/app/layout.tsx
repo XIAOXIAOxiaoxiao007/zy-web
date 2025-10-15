@@ -3,7 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import MobileFooterGate from "@/components/MobileFooterGate";
+import HideStatusBar from "@/components/HideStatusBar";
 import Script from "next/script";
+import MobileChrome from "@/components/MobileChrome";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -66,7 +69,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-white text-gray-900`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-white text-gray-900`}> 
         <Script id="sw-register" strategy="afterInteractive">
           {`
             if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
@@ -76,9 +79,17 @@ export default function RootLayout({
             }
           `}
         </Script>
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <HideStatusBar />
+        <div className="hidden sm:block">
+          <Header />
+        </div>
+        <MobileChrome />
+        <main className="flex-1 pb-16 sm:pb-0">{children}</main>
+        {/* 桌面端展示完整 Footer；移动端主页隐藏备案区域 */}
+        <div className="hidden sm:block">
+          <Footer />
+        </div>
+        <MobileFooterGate />
       </body>
     </html>
   );
