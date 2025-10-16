@@ -6,7 +6,7 @@ export default function HideStatusBar() {
   useEffect(() => {
     const isSmall = typeof window !== "undefined" && window.innerWidth < 768;
     if (!isSmall) return;
-    let mod: any;
+    let mod: typeof import("@capacitor/status-bar") | null = null;
     (async () => {
       try {
         mod = await import("@capacitor/status-bar");
@@ -18,9 +18,7 @@ export default function HideStatusBar() {
       }
     })();
     return () => {
-      if (mod && mod.StatusBar) {
-        mod.StatusBar.show().catch(() => {});
-      }
+      mod?.StatusBar.show().catch(() => {});
     };
   }, []);
   return null;
