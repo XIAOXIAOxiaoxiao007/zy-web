@@ -5,35 +5,38 @@ import { useRouter } from "next/navigation";
 
 type Props = { delayMs?: number; fadeDurationMs?: number };
 
-export default function MobileEntryRedirect({ delayMs = 2000, fadeDurationMs = 600 }: Props) {
+export default function MobileEntryRedirect({ delayMs = 2000 }: Props) {
   const router = useRouter();
-  const [fade, setFade] = useState(false);
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    // Only redirect on small screens or mobile user agents
+    // 暂时仅在桌面环境执行跳转，避免移动端白屏问题；待确认后再恢复
     const isSmallScreen = typeof window !== "undefined" && window.innerWidth < 768;
     const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
     const isMobileUA = /Android|iPhone|iPad|iPod|Mobile|wv/i.test(ua);
-    if (!(isSmallScreen || isMobileUA)) return;
+    if (isSmallScreen || isMobileUA) return;
 
-    const fadeStart = Math.max(0, delayMs - fadeDurationMs);
-    const t1 = setTimeout(() => setFade(true), fadeStart);
-    const t2 = setTimeout(() => router.replace("/feed"), delayMs);
+    setStarted(true);
+    const t2 = setTimeout(() => {
+      try {
+        router.replace("/feed");
+      } catch {}
+      // Fallback: ensure navigation even if router fails (e.g., WebView quirks)
+      setTimeout(() => {
+        try {
+          if (typeof window !== "undefined" && window.location.pathname !== "/feed") {
+            window.location.href = "/feed";
+          }
+        } catch {}
+      }, 1200);
+    }, delayMs);
     return () => {
-      clearTimeout(t1);
       clearTimeout(t2);
     };
-  }, [delayMs, fadeDurationMs, router]);
+  }, [delayMs, router]);
 
-  return (
-    <div
-      className={
-        "fixed inset-0 z-50 bg-white transition-opacity duration-500 pointer-events-none " +
-        (fade ? "opacity-100" : "opacity-0")
-      }
-      aria-hidden
-    />
-  );
+  // No visual overlay to avoid white-screen blocking in some WebViews
+  return started ? null : null;
 }
 
 

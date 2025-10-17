@@ -6,11 +6,13 @@ import { usePathname } from "next/navigation";
 
 export default function MobileChrome() {
   const pathname = usePathname();
-  const showTopTabs = pathname === "/feed"; // 仅底部“首页”路由显示
+  const showTopTabs = false; // 顶部频道切换由首页内部控制
+  const tabRoutes = new Set(["/feed", "/channels", "/post", "/messages", "/profile"]);
+  const showBottomBar = tabRoutes.has(pathname);
   return (
     <>
       {showTopTabs && <MobileTopTabs />}
-      <MobileBottomBar />
+      {showBottomBar && <MobileBottomBar />}
     </>
   );
 }

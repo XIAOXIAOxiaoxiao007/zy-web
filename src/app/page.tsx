@@ -8,7 +8,7 @@ import MobileEntryRedirect from "@/components/MobileEntryRedirect";
 export default function HomePage() {
   return (
     <section className="container mx-auto px-4">
-      <MobileEntryRedirect delayMs={5000} fadeDurationMs={800} />
+      <MobileEntryRedirect delayMs={200} />
       <div className="py-16 sm:py-24 grid md:grid-cols-2 gap-10 items-center">
         <Reveal>
           <div className="space-y-5">
@@ -19,7 +19,10 @@ export default function HomePage() {
             </div>
             <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">{hero.title}</h1>
             <p className="text-gray-600 text-base sm:text-lg">{hero.subtitle}</p>
-            <DownloadButtons />
+            <div className="flex items-center gap-3 flex-wrap">
+              <DownloadButtons />
+              <a href="/feed" className="px-4 py-2 rounded-md border text-sm hover:bg-gray-50">进入应用</a>
+            </div>
           </div>
         </Reveal>
         <div className="flex md:justify-end">
@@ -48,6 +51,9 @@ export default function HomePage() {
           <Link href="/highlights" className="px-4 py-2 rounded-md border text-sm hover:bg-gray-50">前往查看</Link>
         </div>
       </div>
+
+
+
     </section>
   );
 }

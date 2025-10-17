@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">最右轻量版</string>
-    <string name="title_activity_main">最右轻量版</string>
+    <string name="app_name">誰的喵</string>
+    <string name="title_activity_main">誰的喵</string>
     <string name="package_name">com.zy.web</string>
     <string name="custom_url_scheme">com.zy.web</string>
 </resources>

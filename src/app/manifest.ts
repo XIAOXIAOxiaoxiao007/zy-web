@@ -3,8 +3,8 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
   return {
-    name: "最右 - 风格相似复刻",
-    short_name: "最右复刻",
+    name: "誰的喵",
+    short_name: "誰的喵",
     description: "兴趣社区落地页复刻（占位内容）",
     start_url: "/",
     scope: "/",

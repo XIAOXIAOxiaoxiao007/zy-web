@@ -6,6 +6,20 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export async function POST(request: Request) {
+  // Demo 环境兜底：未配置 Supabase 时直接返回成功
+  if (!supabaseUrl || !supabaseAnonKey) {
+    try {
+      const body = await request.json().catch(() => ({}));
+      const { content = "" } = body ?? {};
+      if (!content || typeof content !== "string") {
+        return NextResponse.json({ error: "内容必填" }, { status: 400 });
+      }
+      return NextResponse.json({ ok: true, demo: true });
+    } catch {
+      return NextResponse.json({ error: "服务异常" }, { status: 500 });
+    }
+  }
+
   try {
     const body = await request.json().catch(() => ({}));
     const { email = "", content = "" } = body ?? {};

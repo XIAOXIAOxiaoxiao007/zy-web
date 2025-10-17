@@ -1,6 +1,31 @@
+"use client";
 import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { getUserProfile, saveUserProfile, type UserProfile } from "@/lib/userProfile";
 
 export default function ProfilePage() {
+  const router = useRouter();
+  const [profile, setProfile] = useState<UserProfile | null>(getUserProfile());
+  const name = profile?.name || "未登录用户";
+  const avatar = profile?.avatarDataUrl;
+
+  useEffect(() => {
+    async function syncFromCloud() {
+      try {
+        const uid = typeof window !== "undefined" ? localStorage.getItem("auth_token") : null;
+        if (!uid) return;
+        const res = await fetch(`/api/profile?uid=${encodeURIComponent(uid)}`, { cache: "no-store" });
+        const json = await res.json();
+        if (json?.profile) {
+          saveUserProfile(json.profile as UserProfile);
+          setProfile(json.profile as UserProfile);
+        }
+      } catch {}
+    }
+    syncFromCloud();
+  }, []);
   return (
     <section className="max-w-screen-sm mx-auto px-4 pb-20">
       {/* 顶部横幅（占满到统计模块），统计作为上层覆盖在横幅内 */}
@@ -8,11 +33,30 @@ export default function ProfilePage() {
         <div className="h-44 bg-gradient-to-r from-sky-500 to-blue-600 rounded-2xl" />
         {/* 头像与昵称 */}
         <div className="absolute top-4 left-4 right-4 flex items-center">
-          <Image src="/hero.svg" alt="avatar" width={64} height={64} className="h-16 w-16 rounded-full border-4 border-white bg-white mr-3" />
-          <div className="text-white drop-shadow-sm">
-            <div className="text-xl font-bold">爱吃章鱼烧炸至金黄</div>
-            <div className="text-xs opacity-90 mt-1">最右ID：751221 ♂</div>
-          </div>
+          <Link href="/profile/edit" className="flex items-center">
+            {avatar ? (
+              <img src={avatar} alt="avatar" className="h-16 w-16 rounded-full border-4 border-white bg-white mr-3" />
+            ) : (
+              <Image src="/hero.svg" alt="avatar" width={64} height={64} className="h-16 w-16 rounded-full border-4 border-white bg-white mr-3" />
+            )}
+            <div className="text-white drop-shadow-sm">
+              <div className="text-xl font-bold line-clamp-1">{name}</div>
+              <div className="text-xs opacity-90 mt-1">点头像编辑资料</div>
+            </div>
+          </Link>
+          <button
+            onClick={() => {
+              try {
+                localStorage.removeItem("auth_token");
+                localStorage.removeItem("user_profile");
+              } catch {}
+              // 刷新以让 AuthGate 立即生效
+              try { location.reload(); } catch { router.replace("/feed"); }
+            }}
+            className="ml-auto px-2.5 py-1 rounded-md text-xs bg-white/90 text-gray-800 border shadow active:scale-95"
+          >
+            退出登录
+          </button>
         </div>
         {/* 统计卡片（位于横幅之上） */}
         <div className="absolute -bottom-4 left-0 right-0 px-4 z-10">

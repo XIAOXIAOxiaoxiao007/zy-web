@@ -3,9 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
+  /* Inline theme tokens moved from @theme to avoid editor unknownAtRules warning */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -23,6 +21,17 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+}
+
+/* 临时禁用 backdrop-blur（部分 Android WebView 渲染会白屏） */
+.backdrop-blur {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* 顶部安全区内边距（用于移动端固定顶栏） */
+.safe-top {
+  padding-top: calc(env(safe-area-inset-top) + 9px);
 }
 
 /* 安全区适配：沉浸式状态栏下为顶部增加 padding 变量 */

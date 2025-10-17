@@ -9,14 +9,15 @@ const siteUrl =
 
 const config: CapacitorConfig = {
   appId: "com.zy.web",
-  appName: "最右轻量版",
+  appName: "誰的喵",
   webDir: "out", // not used when server.url is set
   server: {
     url: siteUrl,
     cleartext: siteUrl.startsWith("http://"),
   },
   android: {
-    allowMixedContent: false,
+    // 开发调试阶段放开混合内容，避免 http 子资源导致白屏；上线请改回 false
+    allowMixedContent: true,
   },
 };
 

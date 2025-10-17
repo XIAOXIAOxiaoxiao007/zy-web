@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileFooterGate from "@/components/MobileFooterGate";
 import HideStatusBar from "@/components/HideStatusBar";
+import AuthGate from "@/components/AuthGate";
 import Script from "next/script";
 import MobileChrome from "@/components/MobileChrome";
 
@@ -70,21 +71,25 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-white text-gray-900`}> 
-        <Script id="sw-register" strategy="afterInteractive">
-          {`
-            if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-              window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').catch(() => {});
-              });
-            }
-          `}
-        </Script>
-        <HideStatusBar />
+        {process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_ENABLE_SW === '1' && (
+          <Script id="sw-register" strategy="afterInteractive">
+            {`
+              if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                  navigator.serviceWorker.register('/sw.js').catch(() => {});
+                });
+              }
+            `}
+          </Script>
+        )}
+        {false && <HideStatusBar />}
+        <AuthGate />
         <div className="hidden sm:block">
           <Header />
         </div>
         <MobileChrome />
-        <main className="flex-1 pb-16 sm:pb-0">{children}</main>
+        {/* 预留底部固定栏空间，防止被遮挡；含安全区补偿 */}
+        <main className="flex-1 pb-[calc(56px+env(safe-area-inset-bottom))] sm:pb-0">{children}</main>
         {/* 桌面端展示完整 Footer；移动端主页隐藏备案区域 */}
         <div className="hidden sm:block">
           <Footer />
