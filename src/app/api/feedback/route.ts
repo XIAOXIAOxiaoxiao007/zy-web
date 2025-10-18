@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
 export async function POST(request: Request) {
   // Demo 环境兜底：未配置 Supabase 时直接返回成功
   if (!supabaseUrl || !supabaseAnonKey) {
@@ -21,6 +17,12 @@ export async function POST(request: Request) {
   }
 
   try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+    if (!supabaseUrl || !supabaseAnonKey) {
+      return NextResponse.json({ error: "服务未配置" }, { status: 500 });
+    }
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
     const body = await request.json().catch(() => ({}));
     const { email = "", content = "" } = body ?? {};
     if (!content || typeof content !== "string") {
